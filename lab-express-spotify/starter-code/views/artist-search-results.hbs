@@ -1,0 +1,13 @@
+<div class="container">
+  {{#each artists}}
+  <div class="item-wrapper">
+    {{#if images.0.url}}
+    <img src="{{images.0.url}}" alt="photo for {{name}}">
+    {{else}}
+    <img src="https://sunset-radio.now.sh/images/placeholder.png" alt="missing photo for {{name}}">
+    {{/if}}
+    <p>{{name}}</p>
+    <a href="#">View Albums</a>
+  </div>
+  {{/each}}
+</div>
