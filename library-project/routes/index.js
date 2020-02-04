@@ -33,6 +33,54 @@ router.get("/books/:id", (req, res, next) => {
     });
 });
 
+router.get("/books/:bookId/edit", (req, res, next) => {
+  Book.findById(req.params.bookId)
+    .then(bookDocument => {
+      res.render("bookEdit.hbs", bookDocument);
+    })
+    .catch(err => {
+      next(err);
+    });
+});
+
+router.get("/books/:bookId/delete", (req, res, next) => {
+  Book.deleteOne({ _id: req.params.bookId })
+    .then(() => {
+      res.redirect("/books");
+    })
+    .catch(err => {
+      next(err);
+    });
+});
+
+router.post("/books/:id", (req, res, next) => {
+  // const { title, description, rating, author } = req.body;
+  // Book.updateOne(
+  //   { _id: req.params.id },
+  //   {
+  //     title,
+  //     description,
+  //     rating,
+  //     author
+  //   }
+  // );
+  Book.updateOne(
+    { _id: req.params.id },
+    {
+      title: req.body.title,
+      description: req.body.description,
+      rating: req.body.rating,
+      author: req.body.author
+    }
+  )
+    .then(() => {
+      res.redirect(`/books/${req.params.id}`);
+    })
+    .catch(err => {
+      next(err);
+    });
+});
+
 router.post("/books", (req, res, next) => {
   // create a book
   Book.create({
